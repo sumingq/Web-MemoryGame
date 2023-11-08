@@ -5,21 +5,30 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Memory Game</title>
+<<<<<<< HEAD
 
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Gaegu:wght@700&display=swap');
 
+=======
+  <style>
+>>>>>>> 187ae64f8c080d033d2e55b712cb55a5a89a5964
     body {
       display: flex;
       align-items: center;
       justify-content: center;
       height: 100vh;
       margin: 0;
+<<<<<<< HEAD
       background-image: url('Background.png');
       background-size: cover;
       background-position: center;
       flex-direction: column;
       position: relative;
+=======
+      background-color: #f8f9fa;
+      flex-direction: column;
+>>>>>>> 187ae64f8c080d033d2e55b712cb55a5a89a5964
     }
 
     h1 {
@@ -30,13 +39,20 @@
       display: grid;
       grid-template-columns: repeat(4, 100px);
       grid-gap: 10px;
+<<<<<<< HEAD
       position: relative;
+=======
+>>>>>>> 187ae64f8c080d033d2e55b712cb55a5a89a5964
     }
 
     .tile {
       width: 100px;
       height: 100px;
+<<<<<<< HEAD
       background-color: #98CDF8;
+=======
+      background-color: #007bff;
+>>>>>>> 187ae64f8c080d033d2e55b712cb55a5a89a5964
       color: #fff;
       font-size: 24px;
       display: flex;
@@ -53,6 +69,7 @@
       color: #000 !important;
       border-color: #000 !important;
     }
+<<<<<<< HEAD
 
     #restart-button {
       width: 200px;
@@ -67,16 +84,26 @@
       font-size: 40px;
       font-family: 'Gaegu', sans-serif;
     }
+=======
+>>>>>>> 187ae64f8c080d033d2e55b712cb55a5a89a5964
   </style>
 </head>
 
 <body>
+<<<<<<< HEAD
   <div id="game-board"></div>
   <button id="restart-button" style="display: none;">RESTART</button>
 
   <script>
     const gameBoard = document.getElementById('game-board');
     const restartButton = document.getElementById('restart-button');
+=======
+  <h1>MEMORY GAME</h1>
+  <div id="game-board"></div>
+
+  <script>
+    const gameBoard = document.getElementById('game-board');
+>>>>>>> 187ae64f8c080d033d2e55b712cb55a5a89a5964
     let tiles = [];
     let flippedTiles = [];
     let isFlipping = false;
@@ -102,8 +129,11 @@
         gameBoard.appendChild(tile);
         tiles.push(tile);
       }
+<<<<<<< HEAD
 
       restartButton.style.display = 'none';
+=======
+>>>>>>> 187ae64f8c080d033d2e55b712cb55a5a89a5964
     }
 
     function flipTile() {
@@ -139,6 +169,7 @@
       isFlipping = false;
 
       if (document.querySelectorAll('.tile:not(.flipped)').length === 0) {
+<<<<<<< HEAD
         restartButton.style.display = 'block';
       }
     }
@@ -148,6 +179,13 @@
       this.style.display = 'none';
     });
 
+=======
+        alert('축하합니다!');
+        initializeGame();
+      }
+    }
+
+>>>>>>> 187ae64f8c080d033d2e55b712cb55a5a89a5964
     initializeGame();
   </script>
 </body>
