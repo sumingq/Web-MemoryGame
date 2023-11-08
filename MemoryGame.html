@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Memory Game</title>
+
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Gaegu:wght@700&display=swap');
+
+    body {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+      background-image: url('Background.png');
+      background-size: cover;
+      background-position: center;
+      flex-direction: column;
+      position: relative;
+    }
+
+    h1 {
+      margin-bottom: 20px;
+    }
+
+    #game-board {
+      display: grid;
+      grid-template-columns: repeat(4, 100px);
+      grid-gap: 10px;
+      position: relative;
+    }
+
+    .tile {
+      width: 100px;
+      height: 100px;
+      background-color: #98CDF8;
+      color: #fff;
+      font-size: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      border: 2px solid #000;
+      border-radius: 5px;
+      transition: background-color 0.3s, color 0.3s;
+    }
+
+    .flipped {
+      background-color: #fff !important;
+      color: #000 !important;
+      border-color: #000 !important;
+    }
+
+    #restart-button {
+      width: 200px;
+      height: 100px;
+      margin-top: -50px;
+      background-color: #FFF08E;
+      color: black;
+      border: 2px solid black;
+      border-radius: 5px;
+      cursor: pointer;
+      position: absolute;
+      font-size: 40px;
+      font-family: 'Gaegu', sans-serif;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="game-board"></div>
+  <button id="restart-button" style="display: none;">RESTART</button>
+
+  <script>
+    const gameBoard = document.getElementById('game-board');
+    const restartButton = document.getElementById('restart-button');
+    let tiles = [];
+    let flippedTiles = [];
+    let isFlipping = false;
+
+    const numbers = [...Array(8).keys(), ...Array(8).keys()];
+    numbers.sort(() => Math.random() - 0.5);
+
+    function initializeGame() {
+      while (gameBoard.firstChild) {
+        gameBoard.removeChild(gameBoard.firstChild);
+      }
+
+      tiles = [];
+      flippedTiles = [];
+      isFlipping = false;
+
+      for (let i = 0; i < 16; i++) {
+        const tile = document.createElement('div');
+        tile.classList.add('tile');
+        tile.dataset.value = numbers[i];
+        tile.textContent = '?';
+        tile.addEventListener('click', flipTile);
+        gameBoard.appendChild(tile);
+        tiles.push(tile);
+      }
+
+      restartButton.style.display = 'none';
+    }
+
+    function flipTile() {
+      if (isFlipping) return;
+      const selectedTile = this;
+
+      if (flippedTiles.length < 2 && !flippedTiles.includes(selectedTile)) {
+        flippedTiles.push(selectedTile);
+        selectedTile.textContent = selectedTile.dataset.value;
+        selectedTile.classList.add('flipped');
+
+        if (flippedTiles.length === 2) {
+          isFlipping = true;
+          setTimeout(checkMatch, 1000);
+        }
+      }
+    }
+
+    function checkMatch() {
+      const [tile1, tile2] = flippedTiles;
+
+      if (tile1.dataset.value === tile2.dataset.value) {
+        tile1.removeEventListener('click', flipTile);
+        tile2.removeEventListener('click', flipTile);
+      } else {
+        tile1.textContent = '?';
+        tile2.textContent = '?';
+        tile1.classList.remove('flipped');
+        tile2.classList.remove('flipped');
+      }
+
+      flippedTiles = [];
+      isFlipping = false;
+
+      if (document.querySelectorAll('.tile:not(.flipped)').length === 0) {
+        restartButton.style.display = 'block';
+      }
+    }
+
+    restartButton.addEventListener('click', function () {
+      initializeGame();
+      this.style.display = 'none';
+    });
+
+    initializeGame();
+  </script>
+</body>
+
+</html>
