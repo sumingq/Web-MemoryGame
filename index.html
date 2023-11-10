@@ -9,19 +9,20 @@
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Gaegu:wght@700&display=swap');
 
-   body {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 100vh;
-  margin: 0;
-  background-image: url('Background.png');
-  background-size: cover;
-  background-position: center;
-  flex-direction: column;
-  position: relative;
-  text-align: center; /* 가운데 정렬을 추가합니다. */
-}
+    body {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+      background-image: url('Background.png');
+      background-size: cover;
+      background-position: center;
+      flex-direction: column;
+      position: relative;
+      text-align: center;
+      /* 가운데 정렬을 추가합니다. */
+    }
 
     h1 {
       margin-bottom: 20px;
@@ -70,15 +71,16 @@
     }
 
     #score {
-  position: absolute;
-  top: calc(50% - 200px);
-  left: calc(50% - 130px);
-  font-size: 60px;
-  font-family: 'Gaegu', sans-serif;
-  color: #fff; /* 글자 색상을 흰색으로 지정합니다. */
-  text-shadow: -2px -2px 2px #000, 2px -2px 2px #000, -2px 2px 2px #000, 2px 2px 2px #000; /* 텍스트에 검정 테두리를 추가합니다. */
-}
-
+      position: absolute;
+      top: calc(50% - 200px);
+      left: calc(50% - 130px);
+      font-size: 60px;
+      font-family: 'Gaegu', sans-serif;
+      color: #fff;
+      /* 글자 색상을 흰색으로 지정합니다. */
+      text-shadow: -2px -2px 2px #000, 2px -2px 2px #000, -2px 2px 2px #000, 2px 2px 2px #000;
+      /* 텍스트에 검정 테두리를 추가합니다. */
+    }
   </style>
 </head>
 
@@ -86,6 +88,7 @@
   <div id="game-board"></div>
   <div id="score"></div>
   <button id="restart-button" style="display: none;">RESTART</button>
+  <audio id="clickSound" src="button.mp3"></audio>
 
   <script>
     const gameBoard = document.getElementById('game-board');
@@ -102,34 +105,34 @@
     numbers.sort(() => Math.random() - 0.5);
 
     function initializeGame() {
-  while (gameBoard.firstChild) {
-    gameBoard.removeChild(gameBoard.firstChild);
-  }
+      while (gameBoard.firstChild) {
+        gameBoard.removeChild(gameBoard.firstChild);
+      }
 
-  tiles = [];
-  flippedTiles = [];
-  isFlipping = false;
-  failedAttempts = 0;
+      tiles = [];
+      flippedTiles = [];
+      isFlipping = false;
+      failedAttempts = 0;
 
-  // 새로운 숫자 배열 생성
-  const newNumbers = [...Array(8).keys(), ...Array(8).keys()];
-  newNumbers.sort(() => Math.random() - 0.5);
+      // 새로운 숫자 배열 생성
+      const newNumbers = [...Array(8).keys(), ...Array(8).keys()];
+      newNumbers.sort(() => Math.random() - 0.5);
 
-  for (let i = 0; i < 16; i++) {
-    const tile = document.createElement('div');
-    tile.classList.add('tile');
-    tile.dataset.value = newNumbers[i];
-    tile.textContent = '?';
-    tile.addEventListener('click', flipTile);
-    gameBoard.appendChild(tile);
-    tiles.push(tile);
-  }
+      for (let i = 0; i < 16; i++) {
+        const tile = document.createElement('div');
+        tile.classList.add('tile');
+        tile.dataset.value = newNumbers[i];
+        tile.textContent = '?';
+        tile.addEventListener('click', flipTile);
+        gameBoard.appendChild(tile);
+        tiles.push(tile);
+      }
 
-  restartButton.style.display = 'none';
-  scoreDisplay.textContent = ''; // 초기화
-  // 게임 시작 시간 기록
-  startTime = new Date().getTime();
-}
+      restartButton.style.display = 'none';
+      scoreDisplay.textContent = ''; // 초기화
+      // 게임 시작 시간 기록
+      startTime = new Date().getTime();
+    }
 
 
     function flipTile() {
@@ -140,6 +143,10 @@
         flippedTiles.push(selectedTile);
         selectedTile.textContent = selectedTile.dataset.value;
         selectedTile.classList.add('flipped');
+
+        // 효과음 재생
+        clickSound.currentTime = 0; // 효과음을 처음부터 재생
+        clickSound.play();
 
         if (flippedTiles.length === 2) {
           isFlipping = true;
