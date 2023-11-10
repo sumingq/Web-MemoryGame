@@ -1,6 +1,8 @@
 ﻿# Web-MemoryGame
 
 웹으로 개발한 숫자 맞추기 게임입니다.
+<br>
+https://sumingq.github.io/Web-MemoryGame/
 
 <br><br><br>
 <img width="80%" alt="Web-MemoryGame" src="https://github.com/sumingq/Web-MemoryGame/assets/133943734/d3ebd97c-efc6-4a67-b53a-eea7498ffde9">
