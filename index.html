@@ -21,7 +21,6 @@
       flex-direction: column;
       position: relative;
       text-align: center;
-      /* 가운데 정렬을 추가합니다. */
     }
 
     h1 {
@@ -30,6 +29,7 @@
 
     #game-board {
       display: grid;
+      /* 그리드의 열 크기 정의, 열을 4개로 반복 */
       grid-template-columns: repeat(4, 100px);
       grid-gap: 10px;
       position: relative;
@@ -45,15 +45,16 @@
       align-items: center;
       justify-content: center;
       cursor: pointer;
+      /* 마우스커서를 손가락 아이콘으로 변경 */
       border: 2px solid #000;
       border-radius: 5px;
       transition: background-color 0.3s, color 0.3s;
     }
 
     .flipped {
-      background-color: #fff !important;
-      color: #000 !important;
-      border-color: #000 !important;
+      background-color: #fff;
+      color: #000;
+      border-color: #000;
     }
 
     #restart-button {
@@ -76,10 +77,8 @@
       left: calc(50% - 130px);
       font-size: 60px;
       font-family: 'Gaegu', sans-serif;
-      color: #fff;
-      /* 글자 색상을 흰색으로 지정합니다. */
-      text-shadow: -2px -2px 2px #000, 2px -2px 2px #000, -2px 2px 2px #000, 2px 2px 2px #000;
-      /* 텍스트에 검정 테두리를 추가합니다. */
+      color: #000;
+      text-shadow: -2px -2px 2px #FFF08E, 2px -2px 2px #FFF08E, -2px 2px 2px #FFF08E, 2px 2px 2px #FFF08E;
     }
   </style>
 </head>
