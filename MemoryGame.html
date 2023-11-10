@@ -9,18 +9,19 @@
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Gaegu:wght@700&display=swap');
 
-    body {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      height: 100vh;
-      margin: 0;
-      background-image: url('Background.png');
-      background-size: cover;
-      background-position: center;
-      flex-direction: column;
-      position: relative;
-    }
+   body {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  margin: 0;
+  background-image: url('Background.png');
+  background-size: cover;
+  background-position: center;
+  flex-direction: column;
+  position: relative;
+  text-align: center; /* 가운데 정렬을 추가합니다. */
+}
 
     h1 {
       margin-bottom: 20px;
@@ -67,19 +68,35 @@
       font-size: 40px;
       font-family: 'Gaegu', sans-serif;
     }
+
+    #score {
+  position: absolute;
+  top: calc(50% - 200px);
+  left: calc(50% - 130px);
+  font-size: 60px;
+  font-family: 'Gaegu', sans-serif;
+  color: #fff; /* 글자 색상을 흰색으로 지정합니다. */
+  text-shadow: -2px -2px 2px #000, 2px -2px 2px #000, -2px 2px 2px #000, 2px 2px 2px #000; /* 텍스트에 검정 테두리를 추가합니다. */
+}
+
   </style>
 </head>
 
 <body>
   <div id="game-board"></div>
+  <div id="score"></div>
   <button id="restart-button" style="display: none;">RESTART</button>
 
   <script>
     const gameBoard = document.getElementById('game-board');
     const restartButton = document.getElementById('restart-button');
+    const scoreDisplay = document.getElementById('score');
     let tiles = [];
     let flippedTiles = [];
     let isFlipping = false;
+    let startTime;
+    let endTime;
+    let failedAttempts = 0;
 
     const numbers = [...Array(8).keys(), ...Array(8).keys()];
     numbers.sort(() => Math.random() - 0.5);
@@ -104,6 +121,9 @@
       }
 
       restartButton.style.display = 'none';
+      scoreDisplay.textContent = ''; // 초기화
+      // 게임 시작 시간 기록
+      startTime = new Date().getTime();
     }
 
     function flipTile() {
@@ -117,7 +137,10 @@
 
         if (flippedTiles.length === 2) {
           isFlipping = true;
-          setTimeout(checkMatch, 1000);
+          setTimeout(() => {
+            checkMatch();
+            isFlipping = false;
+          }, 1000);
         }
       }
     }
@@ -133,12 +156,24 @@
         tile2.textContent = '?';
         tile1.classList.remove('flipped');
         tile2.classList.remove('flipped');
+        failedAttempts++; // 틀린 횟수 증가
       }
 
       flippedTiles = [];
       isFlipping = false;
 
       if (document.querySelectorAll('.tile:not(.flipped)').length === 0) {
+        // 게임 종료 시간 기록
+        endTime = new Date().getTime();
+
+        // 계산된 점수 표시
+        const elapsedTime = (endTime - startTime) / 1000; // 초 단위로 변환
+        const timeBonus = Math.max(0, 10 - elapsedTime); // 최대 10점의 빠른 완료 보너스
+        const penalty = failedAttempts * 3; // 틀린 횟수당 3점의 페널티
+
+        const totalScore = Math.round(timeBonus + penalty);
+
+        scoreDisplay.textContent = `SCORE : ${totalScore}`; // 계산된 점수를 화면에 표시
         restartButton.style.display = 'block';
       }
     }
